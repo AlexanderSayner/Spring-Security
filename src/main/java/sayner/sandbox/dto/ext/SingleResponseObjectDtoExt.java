@@ -8,7 +8,7 @@ import sayner.sandbox.dto.status.enums.StatusEnum;
 import sayner.sandbox.dto.views.SingleResponseObjectDtoView;
 
 @Log4j2
-public class SingleResponseObjectDtoExt<T> extends SingleResponseObjectDto {
+public final class SingleResponseObjectDtoExt<T> extends SingleResponseObjectDto {
 
     @JsonView(SingleResponseObjectDtoView.StatusCode.class)
     private StatusCodeEnum statusCode;

@@ -16,4 +16,7 @@ public class SingleResponseObjectDtoView {
 
     public interface Full extends StatusCode, Message, Success, DataOrException {
     }
+
+    public interface FullWithUserFull extends Full, UserDtoView.Full {
+    }
 }

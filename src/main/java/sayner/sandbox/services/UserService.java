@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UserService {
 
-    @Secured("GODLiKE")
+//    @Secured({"ROLE_GODLiKE"})
     List<User> getAllUsers() throws NullPointerException;
 }

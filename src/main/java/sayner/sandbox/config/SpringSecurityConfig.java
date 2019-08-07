@@ -16,16 +16,16 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+//@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationEntryPoint authEntryPoint;
 
     @Override
-    public void configure(final AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("admin").password(this.passwordEncoder().encode("admin")).roles("USER");
+                .withUser("adm").password(this.passwordEncoder().encode("adm")).roles("GODLiKE");
     }
 
     @Override
