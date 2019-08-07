@@ -35,8 +35,7 @@ public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
         response.setContentType("application/json");
 
         PrintWriter out = response.getWriter();
-        mapper.writeValue(out, singleResponseObjectDtpExt
-        );
+        mapper.writeValue(out, singleResponseObjectDtpExt);
     }
 
     @Override
