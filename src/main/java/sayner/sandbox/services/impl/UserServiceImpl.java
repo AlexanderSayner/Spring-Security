@@ -1,7 +1,6 @@
 package sayner.sandbox.services.impl;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import sayner.sandbox.model.User;
 import sayner.sandbox.services.UserService;
@@ -14,7 +13,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Override
-    @Secured("GODLiKE")
     public List<User> getAllUsers() throws NullPointerException {
 
         log.info("getAllUsers() method");
