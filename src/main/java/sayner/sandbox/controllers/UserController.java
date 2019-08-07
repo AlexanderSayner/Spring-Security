@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sayner.sandbox.dto.SingleResponseObjectDto;
 import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
 import sayner.sandbox.dto.status.enums.StatusEnum;
 import sayner.sandbox.dto.views.SingleResponseObjectDtoView;
