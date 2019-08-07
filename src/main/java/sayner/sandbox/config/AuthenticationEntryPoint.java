@@ -1,8 +1,12 @@
 package sayner.sandbox.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import sayner.sandbox.dto.SingleResponseObjectDto;
+import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
+import sayner.sandbox.dto.status.enums.StatusEnum;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +23,20 @@ public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
         response.addHeader("WWW-Authenticate", "Basic realm=" + this.getRealmName());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        PrintWriter writer = response.getWriter();
-        writer.println("HTTP Status 401 - " + authEx.getMessage());
+
+        SingleResponseObjectDto singleResponseObjectDtpExt = new SingleResponseObjectDtoExt<>(
+                StatusEnum.Unauthorized,
+                "HTTP Status 401 - " + authEx.getMessage(),
+                false,
+                response.getStatus());
+
+        ObjectMapper mapper = new ObjectMapper();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+
+        PrintWriter out = response.getWriter();
+        mapper.writeValue(out, singleResponseObjectDtpExt
+        );
     }
 
     @Override
