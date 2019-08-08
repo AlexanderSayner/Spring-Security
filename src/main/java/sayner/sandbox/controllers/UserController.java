@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import sayner.sandbox.dto.SingleResponseObjectDto;
 import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
 import sayner.sandbox.dto.mappers.UserMapper;
 import sayner.sandbox.dto.status.enums.StatusEnum;
 import sayner.sandbox.dto.views.SingleResponseObjectDtoView;
+import sayner.sandbox.model.User;
 import sayner.sandbox.services.UserService;
 
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
@@ -25,7 +24,7 @@ public class UserController {
 
     @GetMapping
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDtoExt<Object> listUsers() {
+    public SingleResponseObjectDto listUsers() {
 
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,
@@ -39,13 +38,27 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDtoExt<Object> listUser(@PathVariable(value = "id") String id) {
+    public SingleResponseObjectDto listUser(@PathVariable(value = "id") String id) {
 
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,
-                "listUsers()",
+                "listUser()",
                 true,
-                userMapper.toUserDto(this.userService.getAllUsers().stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null))
+                userMapper.toUserDto(this.userService.getOnlyOneUser(id))
+        );
+
+        return singleResponseObjectDto;
+    }
+
+    @GetMapping(value = "/role")
+    @JsonView(SingleResponseObjectDtoView.Full.class)
+    public SingleResponseObjectDto listRole(){
+
+        SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
+                StatusEnum.AllDoneWell,
+                "listRole()",
+                true,
+                this.userService.getMyRoles("admin")
         );
 
         return singleResponseObjectDto;

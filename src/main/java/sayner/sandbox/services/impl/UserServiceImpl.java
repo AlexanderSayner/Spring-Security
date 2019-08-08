@@ -47,4 +47,14 @@ public class UserServiceImpl implements UserService {
 
         return Arrays.asList(user, user1, user2, user3);
     }
+
+    @Override
+    public User getOnlyOneUser(String id) throws NullPointerException {
+        return this.getAllUsers().stream().filter(user -> user.getId().equals(id)).findFirst().orElse(new User("0", "empty", "empty", "empty"));
+    }
+
+    @Override
+    public String getMyRoles(String username) throws NullPointerException {
+        return "HERE YOU ARE";
+    }
 }
