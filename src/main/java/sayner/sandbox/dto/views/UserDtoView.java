@@ -14,6 +14,30 @@ public class UserDtoView {
     public interface Email {
     }
 
-    public interface Full extends Id, Name, Address, Email {
+    public interface Password {
+    }
+
+    public interface Username {
+    }
+
+    public interface AccountNonExpired {
+    }
+
+    public interface AccountNonLocked {
+    }
+
+    public interface CredentialsNonExpired {
+    }
+
+    public interface Enabled {
+    }
+
+    public interface UserRoles {
+    }
+
+    public interface Basic extends Id, Name, Address, Email {
+    }
+
+    public interface Full extends Id, Name, Address, Email, Password, Username, AccountNonExpired, AccountNonLocked, CredentialsNonExpired, Enabled, UserRoles {
     }
 }
