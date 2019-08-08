@@ -17,6 +17,9 @@ public interface UserService {
     @Secured({GODLiKE})
     User getOnlyOneUser(String id) throws NullPointerException;
 
+    @Secured({GODLiKE})
+    User getUserByHisName(String name) throws NullPointerException;
+
     @PreAuthorize("#username == authentication.principal.username")
     String getMyRoles(String username) throws NullPointerException;
 }

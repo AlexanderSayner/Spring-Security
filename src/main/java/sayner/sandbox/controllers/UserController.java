@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sayner.sandbox.dto.SingleResponseObjectDto;
 import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
@@ -26,9 +28,12 @@ public class UserController {
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
     public SingleResponseObjectDto listUsers() {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,
-                "listUsers()",
+                name,
                 true,
                 userMapper.toUserDTOs(this.userService.getAllUsers())
         );
@@ -52,7 +57,7 @@ public class UserController {
 
     @GetMapping(value = "/role")
     @JsonView(SingleResponseObjectDtoView.Full.class)
-    public SingleResponseObjectDto listRole(){
+    public SingleResponseObjectDto listRole() {
 
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,
