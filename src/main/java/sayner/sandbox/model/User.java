@@ -1,6 +1,7 @@
 package sayner.sandbox.model;
 
 import lombok.*;
+import sayner.sandbox.model.enums.RoleEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class User {
     private Boolean accountNonLocked;
     private Boolean credentialsNonExpired;
     private Boolean enabled;
-    private List<UserRole> userRoles;
+    private List<RoleEnum> userRoles;
 
     /**
      * Constructors 
@@ -53,7 +54,7 @@ public class User {
         this.credentialsNonExpired = true;
         this.enabled = true;
         this.userRoles = new ArrayList<>();
-        this.userRoles.add(new UserRole("GODLiKE"));
+        this.userRoles.add(RoleEnum.ROLE_GODLiKE);
     }
 
     /**

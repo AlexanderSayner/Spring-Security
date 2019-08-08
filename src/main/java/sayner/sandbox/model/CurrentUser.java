@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sayner.sandbox.authority.impl.GrantedAuthorityImpl;
+import sayner.sandbox.model.enums.RoleEnum;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,15 +27,15 @@ public class CurrentUser implements UserDetails {
 
         final Set<GrantedAuthority> _grntdAuths = new HashSet<GrantedAuthority>();
 
-        List<UserRole> _roles = null;
+        List<RoleEnum> _roles = null;
 
         if (user != null) {
             _roles = user.getUserRoles();
         }
 
         if (_roles != null) {
-            for (UserRole _role : _roles) {
-                _grntdAuths.add(new GrantedAuthorityImpl(_role.getName()));
+            for (RoleEnum _role : _roles) {
+                _grntdAuths.add(new GrantedAuthorityImpl(_role.name()));
             }
         }
 

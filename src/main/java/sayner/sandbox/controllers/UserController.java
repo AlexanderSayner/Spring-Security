@@ -13,6 +13,7 @@ import sayner.sandbox.dto.mappers.UserMapper;
 import sayner.sandbox.dto.status.enums.StatusEnum;
 import sayner.sandbox.dto.views.SingleResponseObjectDtoView;
 import sayner.sandbox.model.User;
+import sayner.sandbox.model.enums.RoleEnum;
 import sayner.sandbox.services.UserService;
 
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
@@ -20,6 +21,8 @@ import sayner.sandbox.services.UserService;
 @RequestMapping("/user")
 @Log4j2
 public class UserController {
+
+    final String GODLiKE = RoleEnum.ROLE_GODLiKE.name();
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
     private final UserService userService;
