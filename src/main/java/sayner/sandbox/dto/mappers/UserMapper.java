@@ -18,13 +18,14 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mappings({
-            @Mapping(source = "id", target = "userId"),
-            @Mapping(source = "hashPassword", target = "password", ignore = true)
+            @Mapping(target = "id", source = "userId"),
+            @Mapping(target = "hashPassword", source = "password", ignore = true),
+            @Mapping(target = "tokens", ignore = true)
     })
-    UserDto toUserDto(User user);
+    User toUser(UserDto userDto);
 
     Collection<UserDto> toUserDTOs(Collection<User> users);
 
     @InheritInverseConfiguration
-    User toUser(UserDto userDto);
+    UserDto toUserDto(User user);
 }

@@ -1,6 +1,7 @@
 package sayner.sandbox.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sayner.sandbox.dto.SingleResponseObjectDto;
 import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LoginController {
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public SingleResponseObjectDto getLoginRequest(HttpServletRequest request) {
 
         SingleResponseObjectDto singleResponseObjectDto;

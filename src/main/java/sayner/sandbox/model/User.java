@@ -5,7 +5,7 @@ import sayner.sandbox.model.enums.RoleEnum;
 import sayner.sandbox.model.enums.StateEnum;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Жирненький пользователь
@@ -49,6 +49,9 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     private StateEnum userState;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Token> tokens;
 
     /**
      * Constructors 

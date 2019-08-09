@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -17,4 +18,10 @@ public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String value;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id") // <user> - classname from the lower case, after <_> <id> - field name
+    private User user;
 }
