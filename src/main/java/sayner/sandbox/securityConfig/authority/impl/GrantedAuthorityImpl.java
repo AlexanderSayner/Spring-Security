@@ -1,4 +1,4 @@
-package sayner.sandbox.authority.impl;
+package sayner.sandbox.securityConfig.authority.impl;
 
 import org.springframework.security.core.GrantedAuthority;
 

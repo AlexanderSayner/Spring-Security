@@ -18,7 +18,8 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mappings({
-            @Mapping(source = "id", target = "userId")
+            @Mapping(source = "id", target = "userId"),
+            @Mapping(source = "hashPassword", target = "password")
     })
     UserDto toUserDto(User user);
 

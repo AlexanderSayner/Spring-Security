@@ -1,4 +1,4 @@
-package sayner.sandbox.config;
+package sayner.sandbox.securityConfig;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .anyRequest().authenticated()
+                .antMatchers("/login").permitAll()
                 .and()
                 .httpBasic()
                 .authenticationEntryPoint(authEntryPoint);

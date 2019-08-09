@@ -5,10 +5,7 @@ public class UserDtoView {
     public interface Id {
     }
 
-    public interface Name {
-    }
-
-    public interface Address {
+    public interface Login {
     }
 
     public interface Email {
@@ -32,12 +29,15 @@ public class UserDtoView {
     public interface Enabled {
     }
 
-    public interface UserRoles {
+    public interface UserRole {
     }
 
-    public interface Basic extends Id, Name, Address, Email {
+    public interface UserState {
     }
 
-    public interface Full extends Id, Name, Address, Email, Password, Username, AccountNonExpired, AccountNonLocked, CredentialsNonExpired, Enabled, UserRoles {
+    public interface Basic extends Id, Login, Email, Password {
+    }
+
+    public interface Full extends Id, Login, Email, Password, Username, AccountNonExpired, AccountNonLocked, CredentialsNonExpired, Enabled, UserRole, UserState {
     }
 }

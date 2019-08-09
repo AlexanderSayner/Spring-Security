@@ -2,9 +2,10 @@ package sayner.sandbox.model;
 
 import lombok.*;
 import sayner.sandbox.model.enums.RoleEnum;
+import sayner.sandbox.model.enums.StateEnum;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Жирненький пользователь
@@ -15,19 +16,40 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Entity
+@Table(name = "usr")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String name;
-    private String address;
+
+    @Column(nullable = false)
+    @NotNull
+    private String login;
+
     private String email;
-    private String password;
+
+    @Column(nullable = false)
+    @NotNull
+    private String hashPassword;
+
     private String username;
+
+    @Column(name = "account_non_expired")
     private Boolean accountNonExpired;
+
+    @Column(name = "account_non_locked")
     private Boolean accountNonLocked;
+
+    @Column(name = "credentials_non_expired")
     private Boolean credentialsNonExpired;
-    private Boolean enabled;
-    private List<RoleEnum> userRoles;
+
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum userRole;
+
+    @Enumerated(value = EnumType.STRING)
+    private StateEnum userState;
 
     /**
      * Constructors 
@@ -37,24 +59,22 @@ public class User {
      * Ленивый конструктор только с основной информацией
      *
      * @param id
-     * @param name
-     * @param address
+     * @param login
      * @param email
+     * @param hashPassword
      */
-    public User(String id, String name, String address, String email) {
+    public User(String id, String login, String email, String hashPassword) {
 
         this.id = id;
-        this.name = name;
-        this.address = address;
+        this.login = login;
         this.email = email;
-        this.password = "password";
+        this.hashPassword = hashPassword;
         this.username = "username";
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
-        this.enabled = true;
-        this.userRoles = new ArrayList<>();
-        this.userRoles.add(RoleEnum.ROLE_GODLiKE);
+        this.userRole = RoleEnum.ROLE_USER;
+        this.userState = StateEnum.ACTIVE;
     }
 
     /**
@@ -71,9 +91,5 @@ public class User {
 
     public Boolean isCredentialsNonExpired() {
         return this.credentialsNonExpired;
-    }
-
-    public Boolean isEnabled() {
-        return this.enabled;
     }
 }

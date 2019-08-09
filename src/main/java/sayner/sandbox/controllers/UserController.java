@@ -17,7 +17,6 @@ import sayner.sandbox.dto.status.enums.StatusEnum;
 import sayner.sandbox.dto.views.SingleResponseObjectDtoView;
 import sayner.sandbox.model.enums.RoleEnum;
 import sayner.sandbox.services.CurrentUserDetailsService;
-import sayner.sandbox.services.UserService;
 
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
 @RestController
@@ -29,7 +28,7 @@ public class UserController {
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    private final UserService userService;
+    private final CurrentUserDetailsService userService;
 
     @GetMapping
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)

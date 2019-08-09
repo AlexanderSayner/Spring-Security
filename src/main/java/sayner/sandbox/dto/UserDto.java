@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import sayner.sandbox.dto.views.UserDtoView;
 import sayner.sandbox.model.enums.RoleEnum;
-
-import java.util.List;
+import sayner.sandbox.model.enums.StateEnum;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +17,8 @@ public final class UserDto {
     @JsonView(UserDtoView.Id.class)
     private String userId;
 
-    @JsonView(UserDtoView.Name.class)
-    private String name;
-
-    @JsonView(UserDtoView.Address.class)
-    private String address;
+    @JsonView(UserDtoView.Login.class)
+    private String login;
 
     @JsonView(UserDtoView.Email.class)
     private String email;
@@ -42,9 +38,9 @@ public final class UserDto {
     @JsonView(UserDtoView.CredentialsNonExpired.class)
     private Boolean credentialsNonExpired;
 
-    @JsonView(UserDtoView.Enabled.class)
-    private Boolean enabled;
+    @JsonView(UserDtoView.UserRole.class)
+    private RoleEnum userRole;
 
-    @JsonView(UserDtoView.UserRoles.class)
-    private List<RoleEnum> userRoles;
+    @JsonView(UserDtoView.UserState.class)
+    private StateEnum userState;
 }

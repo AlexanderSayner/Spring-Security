@@ -22,29 +22,29 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setId("12");
         user.setEmail("johndoe123@gmail.com");
-        user.setName("John Doe");
-        user.setAddress("Bangalore, Karnataka");
+        user.setLogin("John Doe");
+        user.setHashPassword("Bangalore, Karnataka");
         log.info(user.toString());
 
         User user1 = new User();
         user1.setId("13");
         user1.setEmail("amitsingh@yahoo.com");
-        user1.setName("Amit Singh");
-        user1.setAddress("Chennai, Tamilnadu");
+        user1.setLogin("Amit Singh");
+        user1.setHashPassword("Chennai, Tamilnadu");
         log.info(user1.toString());
 
         User user2 = new User();
         user2.setId("14");
         user2.setEmail("bipulkumar@gmail.com");
-        user2.setName("Bipul Kumar");
-        user2.setAddress("Bangalore, Karnataka");
+        user2.setLogin("Bipul Kumar");
+        user2.setHashPassword("Bangalore, Karnataka");
         log.info(user2.toString());
 
         User user3 = new User();
         user3.setId("15");
         user3.setEmail("prakashranjan@gmail.com");
-        user3.setName("Prakash Ranjan");
-        user3.setAddress("Chennai, Tamilnadu");
+        user3.setLogin("Prakash Ranjan");
+        user3.setHashPassword("Chennai, Tamilnadu");
         log.info(user3.toString());
 
         return Arrays.asList(user, user1, user2, user3);
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByHisName(String name) throws NullPointerException {
-        return this.getAllUsers().stream().filter(user -> user.getName().equals(name)).findFirst().orElse(new User("0", "empty", "empty", "empty"));
+        return this.getAllUsers().stream().filter(user -> user.getLogin().equals(name)).findFirst().orElse(new User("0", "empty", "empty", "empty"));
     }
 
     @Override

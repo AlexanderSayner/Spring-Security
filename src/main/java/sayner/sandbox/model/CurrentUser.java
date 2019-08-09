@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import sayner.sandbox.authority.impl.GrantedAuthorityImpl;
 import sayner.sandbox.model.enums.RoleEnum;
+import sayner.sandbox.model.enums.StateEnum;
+import sayner.sandbox.securityConfig.authority.impl.GrantedAuthorityImpl;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Log4j2
@@ -27,16 +27,14 @@ public class CurrentUser implements UserDetails {
 
         final Set<GrantedAuthority> _grntdAuths = new HashSet<GrantedAuthority>();
 
-        List<RoleEnum> _roles = null;
+        RoleEnum _role = null;
 
         if (user != null) {
-            _roles = user.getUserRoles();
+            _role = user.getUserRole();
         }
 
-        if (_roles != null) {
-            for (RoleEnum _role : _roles) {
-                _grntdAuths.add(new GrantedAuthorityImpl(_role.name()));
-            }
+        if (_role != null) {
+            _grntdAuths.add(new GrantedAuthorityImpl(_role.name()));
         }
 
         return _grntdAuths;
@@ -44,7 +42,7 @@ public class CurrentUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getHashPassword();
     }
 
     @Override
@@ -72,7 +70,12 @@ public class CurrentUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.user.isEnabled();
+
+        if (this.user.getUserState() == StateEnum.ACTIVE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
