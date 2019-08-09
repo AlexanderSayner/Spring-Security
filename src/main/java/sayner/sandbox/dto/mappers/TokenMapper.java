@@ -15,7 +15,7 @@ import java.util.Collection;
 @Mapper
 public interface TokenMapper {
 
-    TokenMapper tokenMapper = Mappers.getMapper(TokenMapper.class);
+    TokenMapper INSTANCE = Mappers.getMapper(TokenMapper.class);
 
     @Mappings({
             @Mapping(ignore = true, target = "id"),

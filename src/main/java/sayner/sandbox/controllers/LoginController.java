@@ -1,46 +1,32 @@
 package sayner.sandbox.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sayner.sandbox.dto.SingleResponseObjectDto;
 import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
 import sayner.sandbox.dto.status.enums.StatusEnum;
+import sayner.sandbox.dto.forms.LoginForm;
+import sayner.sandbox.services.LoginService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+@RequiredArgsConstructor(onConstructor = @__({@Autowired}))
 @RestController
 public class LoginController {
 
+    private final LoginService loginService;
+
     @PostMapping("/login")
-    public SingleResponseObjectDto getLoginRequest(HttpServletRequest request) {
+    public SingleResponseObjectDto login(@RequestBody LoginForm form) {
 
-        SingleResponseObjectDto singleResponseObjectDto;
-        String responseMessage;
-
-        if (request.getParameterMap().containsKey("error")) {
-
-            responseMessage = "Логин или пароль введены неверно";
-
-            singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
-
-                    StatusEnum.Unauthorized,
-                    responseMessage,
-                    false,
-                    request.getContextPath()
-            );
-        } else {
-            responseMessage = "Прокатило";
-
-            singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
+        SingleResponseObjectDto singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
 
                     StatusEnum.AllDoneWell,
-                    responseMessage,
+                    "login service",
                     true,
-                    request.getContextPath()
+                    this.loginService.login(form)
             );
-        }
 
         return singleResponseObjectDto;
     }
