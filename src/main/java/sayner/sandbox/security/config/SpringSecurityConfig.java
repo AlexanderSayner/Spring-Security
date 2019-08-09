@@ -25,10 +25,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth
                 .inMemoryAuthentication()
-                .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("A_MERE_MORTAL")
-                .and().and()
+                        .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
+                        .and()
+                        .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
+                        .and()
+                    .and()
                 .userDetailsService(this.userDetailsService)
-                .passwordEncoder(this.passwordEncoder)
+                    .passwordEncoder(this.passwordEncoder)
         ;
     }
 
@@ -36,12 +39,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .antMatchers("/login").permitAll()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(authEntryPoint);
+                    .authorizeRequests()
+                        .anyRequest().authenticated()
+                        .antMatchers("/login").permitAll()
+                        .and()
+                    .httpBasic()
+                        .authenticationEntryPoint(authEntryPoint);
     }
 
 }

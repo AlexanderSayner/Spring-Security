@@ -16,13 +16,14 @@ import javax.validation.constraints.NotNull;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 @Entity
 @Table(name = "usr")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(nullable = false)
     private String login;
@@ -61,7 +62,7 @@ public class User {
      * @param email
      * @param hashPassword
      */
-    public User(String id, String login, String email, String hashPassword) {
+    public User(Long id, String login, String email, String hashPassword) {
 
         this.id = id;
         this.login = login;

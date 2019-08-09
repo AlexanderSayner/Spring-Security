@@ -49,7 +49,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDto listUser(@PathVariable(value = "id") String id) {
+    public SingleResponseObjectDto listUser(@PathVariable(value = "id") Long id) {
 
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,

@@ -16,10 +16,10 @@ public interface UserService {
     List<User> getAllUsers() throws NullPointerException;
 
     @Secured({GODLiKE, A_MERE_MORTAL})
-    User getOnlyOneUser(String id) throws NullPointerException;
+    User getOnlyOneUser(Long id) throws NullPointerException;
 
     @Secured({GODLiKE, A_MERE_MORTAL})
-    User getUserByHisName(String name) throws NullPointerException;
+    User getUserByHisLogin(String login) throws NullPointerException;
 
     @PreAuthorize("#login == authentication.principal.username")
     String getMyRoles(String login) throws NullPointerException;
