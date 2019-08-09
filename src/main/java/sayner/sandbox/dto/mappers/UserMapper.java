@@ -19,7 +19,7 @@ public interface UserMapper {
 
     @Mappings({
             @Mapping(source = "id", target = "userId"),
-            @Mapping(source = "hashPassword", target = "password")
+            @Mapping(source = "hashPassword", target = "password", ignore = true)
     })
     UserDto toUserDto(User user);
 

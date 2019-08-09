@@ -1,7 +1,6 @@
 package sayner.sandbox.security.details;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,9 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import sayner.sandbox.model.User;
 import sayner.sandbox.model.enums.RoleEnum;
 import sayner.sandbox.model.enums.StateEnum;
+import sayner.sandbox.security.authority.CustomGrantedAuthority;
 
-import javax.persistence.OneToMany;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Adapter between your model.User and Spring Security
@@ -27,7 +27,7 @@ public class UserDetailsImpl implements UserDetails {
      * но вот user'a Spring в бинах искать не должен
      */
     @Autowired
-    private GrantedAuthority grantedAuthority;
+    private CustomGrantedAuthority grantedAuthority;
 
     /**
      * user'a в коде изменить будет уже нельзя.
@@ -43,7 +43,8 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         RoleEnum userRole = this.user.getUserRole();
-        return null;
+        this.grantedAuthority.setAuthority(userRole);
+        return Collections.singletonList(this.grantedAuthority);
     }
 
     @Override

@@ -1,13 +1,15 @@
 package sayner.sandbox.security.authority.impl;
 
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import sayner.sandbox.model.enums.RoleEnum;
+import sayner.sandbox.security.authority.CustomGrantedAuthority;
 
 @Component
-public class GrantedAuthorityImpl implements GrantedAuthority {
+public class GrantedAuthorityImpl implements CustomGrantedAuthority {
 
-    private final String authorities;
+    @Setter
+    private String authorities;
 
     public GrantedAuthorityImpl(String authorities) {
         this.authorities = authorities;
@@ -19,6 +21,11 @@ public class GrantedAuthorityImpl implements GrantedAuthority {
 
     public GrantedAuthorityImpl() {
         this.authorities = RoleEnum.ROLE_NULL.name();
+    }
+
+    @Override
+    public String setAuthority(RoleEnum role) {
+        return this.authorities = role.name();
     }
 
     @Override

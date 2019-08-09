@@ -6,17 +6,17 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sayner.sandbox.dto.SingleResponseObjectDto;
+import sayner.sandbox.dto.UserDto;
 import sayner.sandbox.dto.ext.SingleResponseObjectDtoExt;
 import sayner.sandbox.dto.mappers.UserMapper;
 import sayner.sandbox.dto.status.enums.StatusEnum;
 import sayner.sandbox.dto.views.SingleResponseObjectDtoView;
 import sayner.sandbox.model.enums.RoleEnum;
-import sayner.sandbox.services.CurrentUserDetailsService;
+import sayner.sandbox.services.UserService;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
 @RestController
@@ -28,7 +28,7 @@ public class UserController {
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    private final CurrentUserDetailsService userService;
+    private final UserService userService;
 
     @GetMapping
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
@@ -70,6 +70,22 @@ public class UserController {
                 "listRole()",
                 true,
                 this.userService.getMyRoles("admin")
+        );
+
+        return singleResponseObjectDto;
+    }
+
+    @PostMapping
+    @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
+    public SingleResponseObjectDto addNewFuckingUser(@RequestBody UserDto userDto) {
+
+        Optional<UserDto> optionalUserDto = Optional.of(this.userMapper.toUserDto(this.userService.signUp(userDto)));
+
+        SingleResponseObjectDto singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
+                StatusEnum.AllDoneWell,
+                "Новый пользователь",
+                true,
+                optionalUserDto.orElseThrow(NullPointerException::new)
         );
 
         return singleResponseObjectDto;

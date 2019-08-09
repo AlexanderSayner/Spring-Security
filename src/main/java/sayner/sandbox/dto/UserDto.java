@@ -3,15 +3,28 @@ package sayner.sandbox.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import sayner.sandbox.dto.views.UserDtoView;
-import sayner.sandbox.model.enums.RoleEnum;
 import sayner.sandbox.model.enums.StateEnum;
 
+/**
+ * In JSON form:
+ * {
+ * "userId": "new",
+ * "login": "login",
+ * "email": "email@e.mail",
+ * "password": "password",
+ * "username": "username",
+ * "accountNonExpired": true,
+ * "accountNonLocked": true,
+ * "credentialsNonExpired": true,
+ * "userRole": "userRole",
+ * "userState": "userState"
+ * }
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
 public final class UserDto {
 
     @JsonView(UserDtoView.Id.class)
@@ -39,7 +52,7 @@ public final class UserDto {
     private Boolean credentialsNonExpired;
 
     @JsonView(UserDtoView.UserRole.class)
-    private RoleEnum userRole;
+    private String userRole;
 
     @JsonView(UserDtoView.UserState.class)
     private StateEnum userState;

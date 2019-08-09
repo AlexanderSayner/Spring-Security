@@ -25,13 +25,11 @@ public class User {
     private String id;
 
     @Column(nullable = false)
-    @NotNull
     private String login;
 
     private String email;
 
     @Column(nullable = false)
-    @NotNull
     private String hashPassword;
 
     private String username;
