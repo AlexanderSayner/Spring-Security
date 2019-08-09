@@ -3,6 +3,7 @@ package sayner.sandbox.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,15 +11,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import sayner.sandbox.security.filters.TokenAuthFilter;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AuthenticationEntryPoint authEntryPoint;
-    private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+    private final TokenAuthFilter tokenAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationEntryPoint authEntryPoint;
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -39,12 +44,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .addFilterBefore(this.tokenAuthFilter, BasicAuthenticationFilter.class)
+                .antMatcher("/**")
+                .authenticationProvider(this.authenticationProvider)
                     .authorizeRequests()
                         .anyRequest().authenticated()
                         .antMatchers("/login").permitAll()
                         .and()
                     .httpBasic()
-                        .authenticationEntryPoint(authEntryPoint);
+                        .authenticationEntryPoint(this.authEntryPoint);
     }
 
 }
