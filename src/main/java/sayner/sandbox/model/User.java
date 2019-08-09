@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Жирненький пользователь
  */
-@NoArgsConstructor
+@NoArgsConstructor // mapper'у очень нужен, ну вот никак без него
 @AllArgsConstructor
 @Getter
 @Setter

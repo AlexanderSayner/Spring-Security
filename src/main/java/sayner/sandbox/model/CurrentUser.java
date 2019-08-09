@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sayner.sandbox.model.enums.RoleEnum;
 import sayner.sandbox.model.enums.StateEnum;
-import sayner.sandbox.securityConfig.authority.impl.GrantedAuthorityImpl;
+import sayner.sandbox.security.authority.impl.GrantedAuthorityImpl;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package sayner.sandbox.securityConfig;
+package sayner.sandbox.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

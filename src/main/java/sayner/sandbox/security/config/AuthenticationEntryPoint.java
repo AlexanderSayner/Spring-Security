@@ -1,4 +1,4 @@
-package sayner.sandbox.securityConfig;
+package sayner.sandbox.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
