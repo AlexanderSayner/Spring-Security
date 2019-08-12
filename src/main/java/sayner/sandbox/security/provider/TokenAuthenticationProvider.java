@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import sayner.sandbox.model.Token;
-import sayner.sandbox.model.User;
 import sayner.sandbox.repositories.TokenRepository;
 import sayner.sandbox.security.token.TokenAuthentication;
 
