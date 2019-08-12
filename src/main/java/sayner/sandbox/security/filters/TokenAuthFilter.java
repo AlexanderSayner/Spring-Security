@@ -1,5 +1,6 @@
 package sayner.sandbox.security.filters;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import sayner.sandbox.security.token.TokenAuthentication;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
+@Log4j2
 public class TokenAuthFilter implements Filter {
 
     @Override
@@ -17,10 +19,17 @@ public class TokenAuthFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        Optional<String> token = Optional.of(request.getParameter("token"));
+        Optional<String> token;
+
+        try {
+            token = Optional.of(request.getParameter("token"));
+        } catch (NullPointerException npe) {
+            log.error("В фильтр пришёл пустой токен: " + npe.getMessage());
+            token = Optional.empty();
+        }
 
         TokenAuthentication tokenAuthentication =
-                new TokenAuthentication(token.orElse(null));
+                new TokenAuthentication(token.orElse(""));
 
         if (!token.isPresent()) {
             tokenAuthentication.setAuthenticated(false); // Не ясно куда токен пойдёт в этом случае. Кидать Exception?
