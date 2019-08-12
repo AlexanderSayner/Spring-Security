@@ -25,17 +25,17 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        TokenAuthentication tokenAuthentication=(TokenAuthentication)authentication;
+        TokenAuthentication tokenAuthentication = (TokenAuthentication) authentication;
 
-        Optional<Token> tokenCandidate=this.tokenRepository.findOneByValue(tokenAuthentication.getName());
+        Optional<Token> tokenCandidate = this.tokenRepository.findOneByValue(tokenAuthentication.getName());
 
-        if(tokenCandidate.isPresent()){
+        if (tokenCandidate.isPresent()) {
             // Идёт обращение к другой таблице
-            UserDetails userDetails=this.userDetailsService.loadUserByUsername(tokenCandidate.get().getUser().getLogin());
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(tokenCandidate.get().getUser().getLogin());
             tokenAuthentication.setUserDetails(userDetails);
             tokenAuthentication.setAuthenticated(true);
             return tokenAuthentication;
-        }else {
+        } else {
             throw new IllegalArgumentException("Не найден пользователь по токену");
         }
     }

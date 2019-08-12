@@ -1,6 +1,7 @@
 package sayner.sandbox.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
 @Service
+@Log4j2
 public class LoginServiceImpl implements LoginService {
 
     private final TokenRepository tokenRepository;
@@ -30,7 +32,16 @@ public class LoginServiceImpl implements LoginService {
 
         Optional<User> userCandidate = this.userRepository.findOneByLogin(loginForm.getLogin());
 
-        User user = userCandidate.orElseThrow(NullPointerException::new);
+        User user;
+
+        try {
+
+            user = userCandidate.orElseThrow(NullPointerException::new);
+
+        } catch (NullPointerException npe) {
+            log.error("Такого пользователя нет " + loginForm.toString() + ", ничего не знаю");
+            throw new IllegalArgumentException("User not found");
+        }
 
         if (passwordEncoder.matches(loginForm.getPassword(), user.getHashPassword())) {
 
