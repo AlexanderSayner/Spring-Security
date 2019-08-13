@@ -25,29 +25,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationProvider authenticationProvider; // Автоматически вызывается, проверяя валидность токена
     private final BasicAuthenticationEntryPoint authEntryPoint;
 
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .addFilterBefore(this.tokenAuthFilter, BasicAuthenticationFilter.class)
-//                .antMatcher("/**")
-//                .authenticationProvider(this.authenticationProvider)
-//                    .authorizeRequests()
-//                        // Важный моммент
-//                        // Сначала нужно разрешать
-//                        .antMatchers("/login","/logout").permitAll()
-//                        // А затем блочить
-//                        .anyRequest().authenticated()
-//                        .and()
-//                    .httpBasic()
-//                        .authenticationEntryPoint(this.authEntryPoint)
-//        ;
-//    }
-//
-//}
-
-
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 
