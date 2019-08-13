@@ -24,5 +24,6 @@ public interface UserService {
     @PreAuthorize("#login == authentication.principal.username")
     String getMyRoles(String login) throws NullPointerException;
 
+    @PreAuthorize("hasRole('GODLiKE') or hasRole('A_MERE_MORTAL')")
     User signUp(UserDto userDto) throws IllegalArgumentException;
 }

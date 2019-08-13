@@ -1,11 +1,9 @@
 package sayner.sandbox.security.token;
 
-import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.security.auth.Subject;
 import java.util.Collection;
 
 /**
@@ -53,7 +51,7 @@ public class TokenAuthentication implements Authentication {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.isAuthenticated  = isAuthenticated;
+        this.isAuthenticated = isAuthenticated;
     }
 
     @Override

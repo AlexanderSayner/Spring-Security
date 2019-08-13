@@ -12,7 +12,6 @@ import sayner.sandbox.model.User;
 import sayner.sandbox.repositories.UserRepository;
 import sayner.sandbox.services.UserService;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

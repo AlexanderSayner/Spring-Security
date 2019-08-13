@@ -2,7 +2,6 @@ package sayner.sandbox.security.details;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sayner.sandbox.model.User;

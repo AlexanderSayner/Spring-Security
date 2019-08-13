@@ -10,37 +10,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import sayner.sandbox.security.filters.TokenAuthFilter;
-import sayner.sandbox.security.provider.TokenAuthenticationProvider;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private final PasswordEncoder passwordEncoder;
-//    private final UserDetailsService userDetailsService;
-//    private final TokenAuthFilter tokenAuthFilter; // Преобразует токен в объект аунтификации
-//    private final AuthenticationProvider authenticationProvider; // Автоматически вызывается, проверяя валидность токена
-//    private final BasicAuthenticationEntryPoint authEntryPoint;
-//
-//    @Override
-//    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-//
-//        auth
-//                .inMemoryAuthentication()
-//                        .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
-//                        .and()
-//                        .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
-//                        .and()
-//                    .and()
-//                .userDetailsService(this.userDetailsService)
-//                    .passwordEncoder(this.passwordEncoder)
-//        ;
-//    }
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+    private final TokenAuthFilter tokenAuthFilter; // Преобразует токен в объект аунтификации
+    private final AuthenticationProvider authenticationProvider; // Автоматически вызывается, проверяя валидность токена
+    private final BasicAuthenticationEntryPoint authEntryPoint;
+
 //
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
@@ -63,21 +47,38 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //}
 
-    private final AuthenticationProvider authenticationProvider;
-    private final TokenAuthFilter tokenAuthFilter;
+
+    @Override
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+
+        auth
+                .inMemoryAuthentication()
+                .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
+                .and()
+                .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
+                .and()
+                .and()
+                .userDetailsService(this.userDetailsService)
+                .passwordEncoder(this.passwordEncoder)
+        ;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(tokenAuthFilter, BasicAuthenticationFilter.class)
+                .csrf().disable()
+                .addFilterBefore(this.tokenAuthFilter, BasicAuthenticationFilter.class)
                 .antMatcher("/**")
-                .authenticationProvider(authenticationProvider)
-                .authorizeRequests()
-                .antMatchers("/login","/user").permitAll()
-                .antMatchers("/user/**").hasAuthority("ROLE_A_MERE_MORTAL")
-        ;
-
-        http.csrf().disable()
+                .authenticationProvider(this.authenticationProvider)
+                    .authorizeRequests()
+                        // Сначала нужно разрешать
+                        .antMatchers("/login", "logout").permitAll()
+                        // А затем блочить
+                        .antMatchers("/user*/**").hasRole("A_MERE_MORTAL")
+                        .anyRequest().authenticated()//.hasAuthority("ROLE_A_MERE_MORTAL")
+                        .and()
+                .httpBasic()
+                .authenticationEntryPoint(this.authEntryPoint)
         ;
     }
 }
