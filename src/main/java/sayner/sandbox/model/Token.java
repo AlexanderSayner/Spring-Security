@@ -21,7 +21,7 @@ public class Token {
 
     private String value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id") // <user> - classname from the lower case, after <_> <id> - field name
     private User user;
 }

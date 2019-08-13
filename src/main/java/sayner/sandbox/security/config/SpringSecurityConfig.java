@@ -11,51 +11,73 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import sayner.sandbox.security.filters.TokenAuthFilter;
+import sayner.sandbox.security.provider.TokenAuthenticationProvider;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
-    private final TokenAuthFilter tokenAuthFilter;
+//    private final PasswordEncoder passwordEncoder;
+//    private final UserDetailsService userDetailsService;
+//    private final TokenAuthFilter tokenAuthFilter; // Преобразует токен в объект аунтификации
+//    private final AuthenticationProvider authenticationProvider; // Автоматически вызывается, проверяя валидность токена
+//    private final BasicAuthenticationEntryPoint authEntryPoint;
+//
+//    @Override
+//    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+//
+//        auth
+//                .inMemoryAuthentication()
+//                        .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
+//                        .and()
+//                        .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
+//                        .and()
+//                    .and()
+//                .userDetailsService(this.userDetailsService)
+//                    .passwordEncoder(this.passwordEncoder)
+//        ;
+//    }
+//
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .addFilterBefore(this.tokenAuthFilter, BasicAuthenticationFilter.class)
+//                .antMatcher("/**")
+//                .authenticationProvider(this.authenticationProvider)
+//                    .authorizeRequests()
+//                        // Важный моммент
+//                        // Сначала нужно разрешать
+//                        .antMatchers("/login","/logout").permitAll()
+//                        // А затем блочить
+//                        .anyRequest().authenticated()
+//                        .and()
+//                    .httpBasic()
+//                        .authenticationEntryPoint(this.authEntryPoint)
+//        ;
+//    }
+//
+//}
+
     private final AuthenticationProvider authenticationProvider;
-    private final AuthenticationEntryPoint authEntryPoint;
-
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-
-        auth
-                .inMemoryAuthentication()
-                        .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
-                        .and()
-                        .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
-                        .and()
-                    .and()
-                .userDetailsService(this.userDetailsService)
-                    .passwordEncoder(this.passwordEncoder)
-        ;
-    }
+    private final TokenAuthFilter tokenAuthFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .addFilterBefore(this.tokenAuthFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthFilter, BasicAuthenticationFilter.class)
                 .antMatcher("/**")
-                .authenticationProvider(this.authenticationProvider)
-                    .authorizeRequests()
-                        // Важный моммент
-                        // Сначала нужно разрешать
-                        .antMatchers("/login").permitAll()
-                        // А затем блочить
-                        .anyRequest().authenticated()
-                        .and()
-                    .httpBasic()
-                        .authenticationEntryPoint(this.authEntryPoint);
-    }
+                .authenticationProvider(authenticationProvider)
+                .authorizeRequests()
+                .antMatchers("/login","/user").permitAll()
+                .antMatchers("/user/**").hasAuthority("ROLE_A_MERE_MORTAL")
+        ;
 
+        http.csrf().disable()
+        ;
+    }
 }

@@ -8,7 +8,6 @@ import sayner.sandbox.security.token.TokenAuthentication;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 @Log4j2
@@ -19,26 +18,18 @@ public class TokenAuthFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        Optional<String> token;
+        String token = request.getParameter("token");
 
-        try {
-            token = Optional.of(request.getParameter("token"));
-        } catch (NullPointerException npe) {
-            log.error("В фильтр пришёл пустой токен: " + npe.getMessage());
-            token = Optional.empty();
-        }
+        TokenAuthentication tokenAuthentication = new TokenAuthentication(token);
 
-        TokenAuthentication tokenAuthentication =
-                new TokenAuthentication(token.orElse(""));
-
-        if (!token.isPresent()) {
+        if (token == null) {
             tokenAuthentication.setAuthenticated(false); // Не ясно куда токен пойдёт в этом случае. Кидать Exception?
         } else {
 
             // Обычные фильтры переходят в Spring Security
             // т.е.
             // вот есть обычная аунтефикация token.TokenAuthentication.
-            // Туда помещаются фильтры, затем переходят в недры Spring Security
+            // Туда помещается tokenAuthentication, затем переходит в недры Spring Security
             SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
         }
 

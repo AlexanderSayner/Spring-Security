@@ -9,5 +9,11 @@ import java.util.Optional;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
+    /**
+     * Находит необходимый токен по значению
+     *
+     * @param value
+     * @return
+     */
     Optional<Token> findOneByValue(String value);
 }

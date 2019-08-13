@@ -24,17 +24,25 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
+        /**
+         * TokenAuthentication содержит в себе само значение токена,
+         * пользователя и информацию о том, аутентифицирован ли он
+         * Другой тип Authentication попасть не может (см this.supports(...))
+         */
         TokenAuthentication tokenAuthentication = (TokenAuthentication) authentication;
 
+        // getName() возвращает токен
         Optional<Token> tokenCandidate = this.tokenRepository.findOneByValue(tokenAuthentication.getName());
 
         if (tokenCandidate.isPresent()) {
-            // Идёт обращение к другой таблице
+            // Идёт обращение к другой таблице, но можно вытащить из токена
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(tokenCandidate.get().getUser().getLogin());
+            // Раз уж пользователь найден, аутентифицирую его
             tokenAuthentication.setUserDetails(userDetails);
             tokenAuthentication.setAuthenticated(true);
             return tokenAuthentication;
         } else {
+            // Сообщаю, что не нашли по токену
             throw new IllegalArgumentException("Не найден пользователь по токену");
         }
     }

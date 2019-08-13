@@ -47,6 +47,22 @@ public class UserController {
         return singleResponseObjectDto;
     }
 
+    @PostMapping
+    @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
+    public SingleResponseObjectDto addNewFuckingUser(@RequestBody UserDto userDto) {
+
+        Optional<UserDto> optionalUserDto = Optional.of(this.userMapper.toUserDto(this.userService.signUp(userDto)));
+
+        SingleResponseObjectDto singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
+                StatusEnum.AllDoneWell,
+                "Новый пользователь",
+                true,
+                optionalUserDto.orElseThrow(NullPointerException::new)
+        );
+
+        return singleResponseObjectDto;
+    }
+
     @GetMapping(value = "/{id}")
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
     public SingleResponseObjectDto listUser(@PathVariable(value = "id") Long id) {
@@ -70,22 +86,6 @@ public class UserController {
                 "listRole()",
                 true,
                 this.userService.getMyRoles("admin")
-        );
-
-        return singleResponseObjectDto;
-    }
-
-    @PostMapping
-    @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDto addNewFuckingUser(@RequestBody UserDto userDto) {
-
-        Optional<UserDto> optionalUserDto = Optional.of(this.userMapper.toUserDto(this.userService.signUp(userDto)));
-
-        SingleResponseObjectDto singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
-                StatusEnum.AllDoneWell,
-                "Новый пользователь",
-                true,
-                optionalUserDto.orElseThrow(NullPointerException::new)
         );
 
         return singleResponseObjectDto;

@@ -26,8 +26,7 @@ public class UserDetailsImpl implements UserDetails {
      * Мне бы создать объект с @Autowired grantedAuthority,
      * но вот user'a Spring в бинах искать не должен
      */
-    @Autowired
-    private CustomGrantedAuthority grantedAuthority;
+    private final CustomGrantedAuthority grantedAuthority;
 
     /**
      * user'a в коде изменить будет уже нельзя.
@@ -35,8 +34,9 @@ public class UserDetailsImpl implements UserDetails {
      *
      * @param user
      */
-    public UserDetailsImpl(final User user) {
+    public UserDetailsImpl(final User user, CustomGrantedAuthority grantedAuthority) {
         this.user = user;
+        this.grantedAuthority = grantedAuthority;
     }
 
     @Override

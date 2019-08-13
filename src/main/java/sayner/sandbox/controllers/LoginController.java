@@ -17,13 +17,18 @@ public class LoginController {
 
     private final LoginService loginService;
 
+    /**
+     * На каждый логин будет генерироваться токен
+     * @param form
+     * @return
+     */
     @PostMapping("/login")
     public SingleResponseObjectDto login(@RequestBody LoginForm form) {
 
         SingleResponseObjectDto singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
 
                     StatusEnum.AllDoneWell,
-                    "login service",
+                    "login service. Token, here you are:",
                     true,
                     this.loginService.login(form)
             );

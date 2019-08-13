@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import sayner.sandbox.model.User;
 import sayner.sandbox.repositories.UserRepository;
+import sayner.sandbox.security.authority.CustomGrantedAuthority;
 import sayner.sandbox.security.details.UserDetailsImpl;
 
 import java.util.Optional;
@@ -17,11 +18,12 @@ import java.util.Optional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final CustomGrantedAuthority grantedAuthority;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<User> userCondidate = this.userRepository.findOneByLogin(username);
-        return new UserDetailsImpl(userCondidate.orElseThrow(IllegalArgumentException::new));
+        return new UserDetailsImpl(userCondidate.orElseThrow(IllegalArgumentException::new), this.grantedAuthority);
     }
 }

@@ -13,25 +13,27 @@ import java.util.Collection;
  */
 public class TokenAuthentication implements Authentication {
 
-    private String token; // Теперь он будет понятен для Spring Security
+    private String token;
+    private boolean isAuthenticated;
+    private UserDetails userDetails;
 
-    private Boolean isAuthenticated; // Есть ли пользователь в системе
 
-    @Setter
-    private UserDetails userDetails; // Информация о пользователе
-
-    public TokenAuthentication(final String token) {
+    public TokenAuthentication(String token) {
         this.token = token;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return userDetails.getAuthorities();
     }
 
     @Override
     public Object getCredentials() {
         return null;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.userDetails.getAuthorities();
     }
 
     @Override
@@ -46,21 +48,16 @@ public class TokenAuthentication implements Authentication {
 
     @Override
     public boolean isAuthenticated() {
-        return this.isAuthenticated;
+        return isAuthenticated;
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.isAuthenticated = isAuthenticated;
+        this.isAuthenticated  = isAuthenticated;
     }
 
     @Override
     public String getName() {
         return token;
-    }
-
-    @Override
-    public boolean implies(Subject subject) {
-        return false;
     }
 }

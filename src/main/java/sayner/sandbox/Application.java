@@ -7,7 +7,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class MainClass {
+public class Application {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -16,6 +16,6 @@ public class MainClass {
 
     // Входная точка приложения
     public static void main(String[] args) {
-        SpringApplication.run(MainClass.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Подключается в SpringSecurityConfig
+ */
 @Component
 public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 

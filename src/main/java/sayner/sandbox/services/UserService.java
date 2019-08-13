@@ -12,7 +12,7 @@ public interface UserService {
     String GODLiKE = "ROLE_GODLiKE";
     String A_MERE_MORTAL = "ROLE_A_MERE_MORTAL";
 
-    @PreAuthorize("hasRole('" + GODLiKE + "')  or hasRole('" + A_MERE_MORTAL + "')")
+    @PreAuthorize("hasRole('GODLiKE') or hasRole('A_MERE_MORTAL')")
     List<User> getAllUsers() throws NullPointerException;
 
     @Secured({GODLiKE, A_MERE_MORTAL})
