@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -30,10 +31,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth
                 .inMemoryAuthentication()
-                .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
-                .and()
-                .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
-                .and()
+                    .withUser("adm").password(this.passwordEncoder.encode("adm")).roles("GODLiKE")
+                    .and()
+                    .withUser("awesomeUser").password(this.passwordEncoder.encode("123")).roles("A_MERE_MORTAL")
+                    .and()
                 .and()
                 .userDetailsService(this.userDetailsService)
                 .passwordEncoder(this.passwordEncoder)

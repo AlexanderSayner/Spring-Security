@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDto listUsers() {
+    public SingleResponseObjectDto getUsersList() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -49,7 +49,7 @@ public class UserController {
 
     @PostMapping
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDto addNewFuckingUser(@RequestBody UserDto userDto) {
+    public SingleResponseObjectDto postNewUser(@RequestBody UserDto userDto) {
 
         Optional<UserDto> optionalUserDto = Optional.of(this.userMapper.toUserDto(this.userService.signUp(userDto)));
 
@@ -65,7 +65,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
-    public SingleResponseObjectDto listUser(@PathVariable(value = "id") Long id) {
+    public SingleResponseObjectDto getUserId(@PathVariable(value = "id") Long id) {
 
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,
@@ -79,13 +79,15 @@ public class UserController {
 
     @GetMapping(value = "/role")
     @JsonView(SingleResponseObjectDtoView.Full.class)
-    public SingleResponseObjectDto listRole() {
+    public SingleResponseObjectDto getUserRole(@RequestParam(value = "token") String token) {
+
+        log.warn("Достал токен: " + token); // Можно роли и по токену найти
 
         SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
                 StatusEnum.AllDoneWell,
                 "listRole()",
                 true,
-                this.userService.getMyRoles("admin")
+                this.userService.getMyRolesFromSpringContex() // Здесь они берутся из контекста
         );
 
         return singleResponseObjectDto;

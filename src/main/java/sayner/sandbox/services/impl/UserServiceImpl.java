@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sayner.sandbox.dto.UserDto;
@@ -12,6 +15,7 @@ import sayner.sandbox.model.User;
 import sayner.sandbox.repositories.UserRepository;
 import sayner.sandbox.services.UserService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -42,8 +46,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getMyRoles(String login) throws NullPointerException {
-        return this.userRepository.findOneByLogin(login).orElseThrow(NullPointerException::new).getUserRole().name();
+    public String getMyRolesFromSpringContex() throws NullPointerException {
+
+        Collection<GrantedAuthority> authorities =
+                (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        String roles = "";
+        for (GrantedAuthority authority :
+                authorities) {
+            roles += authority.getAuthority() + ", ";
+        }
+
+        return roles;
     }
 
     @Override

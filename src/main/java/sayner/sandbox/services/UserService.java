@@ -21,8 +21,8 @@ public interface UserService {
     @Secured({GODLiKE, A_MERE_MORTAL})
     User getUserByHisLogin(String login) throws NullPointerException;
 
-    @PreAuthorize("#login == authentication.principal.username")
-    String getMyRoles(String login) throws NullPointerException;
+    @Secured({GODLiKE, A_MERE_MORTAL})
+    String getMyRolesFromSpringContex() throws NullPointerException;
 
     @PreAuthorize("hasRole('GODLiKE') or hasRole('A_MERE_MORTAL')")
     User signUp(UserDto userDto) throws IllegalArgumentException;
