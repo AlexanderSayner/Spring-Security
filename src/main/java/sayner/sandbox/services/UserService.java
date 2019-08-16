@@ -9,6 +9,11 @@ import sayner.sandbox.model.User;
 
 import java.util.List;
 
+/**
+ * Замечание.
+ * Если в реализации сервиса вызывать один метод сервиса из другого метода этого сервиса,
+ * то аннотации, указанные в интерфейсе не работают
+ */
 public interface UserService {
 
     String GODLiKE = "ROLE_GODLiKE";
@@ -28,4 +33,16 @@ public interface UserService {
 
     @PreAuthorize("hasRole('" + GODLiKE + "') or hasRole('" + A_MERE_MORTAL + "')")
     User signUp(UserDto userDto) throws IllegalArgumentException;
+
+    /**
+     * Вывести всех юзеров, кроме самого себя (админская штука)
+     *
+     * @param usernames
+     * @return
+     */
+    @PreFilter("filterObject.login != authentication.principal.username")
+    String joinUsernames(List<User> usernames);
+
+    @PostFilter("filterObject.login != authentication.principal.username")
+    List<User> getAllExceptPrincipalUser();
 }

@@ -92,4 +92,36 @@ public class UserController {
 
         return singleResponseObjectDto;
     }
+
+    @GetMapping(value = "/security/filter/pre")
+    @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
+    public SingleResponseObjectDto getSecurityFilterPre() {
+
+        log.info("Испытание началось");
+
+        SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
+                StatusEnum.AllDoneWell,
+                "listRole()",
+                true,
+                this.userService.joinUsernames(this.userService.getAllUsers())
+        );
+
+        return singleResponseObjectDto;
+    }
+
+    @GetMapping(value = "/security/filter/post")
+    @JsonView(SingleResponseObjectDtoView.FullWithUserFull.class)
+    public SingleResponseObjectDto getSecurityFilterPost() {
+
+        log.info("Испытание началось");
+
+        SingleResponseObjectDtoExt<Object> singleResponseObjectDto = new SingleResponseObjectDtoExt<>(
+                StatusEnum.AllDoneWell,
+                "listRole()",
+                true,
+                userMapper.toUserDTOs(this.userService.getAllExceptPrincipalUser())
+        );
+
+        return singleResponseObjectDto;
+    }
 }
