@@ -1,7 +1,9 @@
 package sayner.sandbox.services;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import sayner.sandbox.dto.UserDto;
 import sayner.sandbox.model.User;
 
@@ -12,7 +14,7 @@ public interface UserService {
     String GODLiKE = "ROLE_GODLiKE";
     String A_MERE_MORTAL = "ROLE_A_MERE_MORTAL";
 
-    @PreAuthorize("hasRole('GODLiKE') or hasRole('A_MERE_MORTAL')")
+    @PreAuthorize("hasRole('" + GODLiKE + "') or hasRole('" + A_MERE_MORTAL + "')")
     List<User> getAllUsers() throws NullPointerException;
 
     @Secured({GODLiKE, A_MERE_MORTAL})
@@ -24,6 +26,6 @@ public interface UserService {
     @Secured({GODLiKE, A_MERE_MORTAL})
     String getMyRolesFromSpringContex() throws NullPointerException;
 
-    @PreAuthorize("hasRole('GODLiKE') or hasRole('A_MERE_MORTAL')")
+    @PreAuthorize("hasRole('" + GODLiKE + "') or hasRole('" + A_MERE_MORTAL + "')")
     User signUp(UserDto userDto) throws IllegalArgumentException;
 }

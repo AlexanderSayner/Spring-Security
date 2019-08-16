@@ -1,6 +1,7 @@
 package sayner.sandbox.security.provider;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__({@Autowired}))
 @Component
+@Log4j2
 public class TokenAuthenticationProvider implements AuthenticationProvider {
 
     private final TokenRepository tokenRepository;

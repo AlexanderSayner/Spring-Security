@@ -18,6 +18,7 @@ public class TokenAuthFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
+        // Самый обычный параметр в http запросе
         String token = request.getParameter("token");
 
         TokenAuthentication tokenAuthentication = new TokenAuthentication(token);
@@ -33,6 +34,7 @@ public class TokenAuthFilter implements Filter {
             SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
         }
 
+        // И передаём дальше по цепи
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

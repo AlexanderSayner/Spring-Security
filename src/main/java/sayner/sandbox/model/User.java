@@ -50,7 +50,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private StateEnum userState;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<Token> tokens;
 
     /**
